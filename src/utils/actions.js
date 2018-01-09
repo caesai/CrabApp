@@ -35,5 +35,9 @@ export const actions = {
   loadCommunties: (payload) => ({
     type: 'LOAD_COMMUNITIES',
     payload
+  }),
+  selectComm: (payload) => ({
+    type: 'SELECT_COMMUNITY',
+    payload
   })
 };

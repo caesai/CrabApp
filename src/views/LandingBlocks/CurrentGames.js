@@ -11,17 +11,25 @@ const contract = new web3.eth.Contract(abi,contractAddress);
 const mapStateToProps = (state) => ({
   contractLoaded: state.currentGames.contractLoaded,
   communitiesQnt: state.currentGames.communitiesQnt,
-  communities: state.currentGames.communities
+  communities: state.currentGames.communities,
+  selectedComm: state.currentGames.selectedComm
 });
 
-const RenderCommunitiesList = (props) => {
-  const commArray = props.communities.map((comm, key)=>
-    <tr key={key}>
-      <td>{comm.name}</td>
-      <td>{comm.votes}</td>
-    </tr>
+let voteForm = (props) => {
+  return (
+    <form onSubmit={(e)=>{
+      e.preventDefault();
+      console.log(props.selectedComm)
+      let senderAddr = e.currentTarget.querySelector('input').value;
+      contract.methods.voteForCommunity(props.selectedComm).send({from: senderAddr.toString()}).then(reciept => {
+        console.log(reciept)
+      });
+    }}>
+      <p>Enter your address</p>
+      <input type='text' />
+      <button type='submit'>Vote</button>
+    </form>
   )
-  return commArray;
 }
 
 let CurrentGames = class extends React.Component {
@@ -63,15 +71,39 @@ let CurrentGames = class extends React.Component {
 
   render(){
     return(
-      <table>
+      <table className='gameTable'>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Votes</th>
+            <th></th>
+          </tr>
+        </thead>
         <tbody>
-          <RenderCommunitiesList communities={this.props.communities} />
+          {this.props.communities.map((comm, key)=>
+            <tr key={key}>
+              <td>{comm.name}</td>
+              <td>{comm.votes}</td>
+              <td className='btnTd'>
+                <button onClick={()=>{
+                  this.props.dispatch(actions.selectComm({
+                    selectedComm: key
+                  }));
+                  this.props.dispatch(actions.openPopUp({
+                    title: `Vote for ${comm.name}`,
+                    body: voteForm
+                  }));
+                }}>Vote</button>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     )
   }
 }
 
+voteForm = connect(mapStateToProps)(voteForm);
 CurrentGames = connect(mapStateToProps)(CurrentGames);
 
 export default CurrentGames;
