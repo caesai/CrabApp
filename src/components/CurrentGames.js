@@ -85,6 +85,7 @@ let CurrentGames = class extends React.Component {
   }
   getCommunitiesData(index) {
     let community = {
+      id: index,
       name: '',
       votes: 0
     };
@@ -125,7 +126,7 @@ let CurrentGames = class extends React.Component {
               <td className='btnTd'>
                 <button onClick={()=>{
                   this.props.dispatch(actions.selectComm({
-                    selectedComm: key
+                    selectedComm: comm.id
                   }));
                   this.props.dispatch(actions.openPopUp({
                     title: `Vote for ${comm.name}`,
