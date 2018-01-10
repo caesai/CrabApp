@@ -1,4 +1,5 @@
 const initialState = {
+  gameLoaded: false,
   contractLoaded: false,
   communitiesQnt: 0,
   communities: [],
@@ -19,6 +20,10 @@ export default function currentGames (state = initialState, action) {
     case 'SELECT_COMMUNITY':
     return Object.assign({}, state, {
       selectedComm: action.payload.selectedComm
+    });
+    case 'LOAD_GAME':
+    return Object.assign({}, state, {
+      gameLoaded: true
     });
     default:
     return state;

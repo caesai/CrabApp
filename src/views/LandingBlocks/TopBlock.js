@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {actions} from 'utils/actions';
 
-import CurrentGames from './CurrentGames';
+import CurrentGames from '/components/CurrentGames';
 
 const mapStateToProps = (state) => ({
   popUpOpened: state.popups.popUpOpened,

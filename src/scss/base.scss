@@ -16,6 +16,11 @@ body {
   margin: 0 auto;
 }
 
+.textCenter {
+  text-align: center;
+}
+
 @import './header.scss';
 @import './popup.scss';
 @import './table.scss';
+@import './loader.scss';
